@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦄 Issra Unicorn - تقرير المتابعين</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap');
+
+  :root {
+    --pink:    #ff6bcb;
+    --purple:  #a855f7;
+    --blue:    #60a5fa;
+    --gold:    #fbbf24;
+    --light:   #fdf4ff;
+    --dark:    #1e0533;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--dark);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== خلفية النجوم ===== */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(168,85,247,.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,203,.2)  0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(96,165,250,.1)   0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ===== نجوم متحركة ===== */
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: .2; transform: scale(1); }
+    50%      { opacity: 1;  transform: scale(1.5); }
+  }
+
+  /* ===== wrapper ===== */
+  .wrapper { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 20px; }
+
+  /* ===== HERO ===== */
+  .hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+    background: linear-gradient(135deg, rgba(168,85,247,.3), rgba(255,107,203,.2));
+    border-radius: 30px;
+    border: 1px solid rgba(255,107,203,.3);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🦄';
+    position: absolute; font-size: 200px; opacity: .05;
+    top: -30px; left: -20px; transform: rotate(-20deg);
+  }
+  .hero::after {
+    content: '🦄';
+    position: absolute; font-size: 200px; opacity: .05;
+    bottom: -30px; right: -20px; transform: rotate(20deg) scaleX(-1);
+  }
+
+  .avatar-wrap {
+    position: relative; display: inline-block; margin-bottom: 15px;
+  }
+  .avatar-wrap img {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    background: linear-gradient(white,white) padding-box,
+                linear-gradient(135deg,var(--pink),var(--purple),var(--blue)) border-box;
+    object-fit: cover;
+    display: block;
+  }
+  .avatar-wrap::after {
+    content: '✨';
+    position: absolute; bottom: 0; right: -5px; font-size: 24px;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .handle {
+    color: rgba(255,255,255,.6); font-size: .95rem; margin: 5px 0 20px;
+    direction: ltr;
+  }
+
+  /* ===== STATS ===== */
+  .stats {
+    display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .stat-card {
+    flex: 1; min-width: 140px;
+    padding: 20px 15px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.1);
+    backdrop-filter: blur(10px);
+    transition: transform .3s;
+  }
+  .stat-card:hover { transform: translateY(-5px); }
+  .stat-card.green  { background: linear-gradient(135deg,rgba(34,197,94,.2),rgba(16,185,129,.1)); border-color:rgba(34,197,94,.3); }
+  .stat-card.red    { background: linear-gradient(135deg,rgba(239,68,68,.2),rgba(236,72,153,.1)); border-color:rgba(239,68,68,.3); }
+  .stat-card.yellow { background: linear-gradient(135deg,rgba(251,191,36,.2),rgba(245,158,11,.1)); border-color:rgba(251,191,36,.3); }
+  .stat-card.purple { background: linear-gradient(135deg,rgba(168,85,247,.2),rgba(255,107,203,.1)); border-color:rgba(168,85,247,.3); }
+
+  .stat-card .num {
+    font-size: 2.5rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-card.green  .num { background: linear-gradient(135deg,#4ade80,#34d399); -webkit-background-clip:text; background-clip:text; }
+  .stat-card.red    .num { background: linear-gradient(135deg,#f87171,#ec4899); -webkit-background-clip:text; background-clip:text; }
+  .stat-card.yellow .num { background: linear-gradient(135deg,#fbbf24,#f59e0b); -webkit-background-clip:text; background-clip:text; }
+
+  .stat-card .label { font-size: .85rem; color: rgba(255,255,255,.7); margin-top: 5px; }
+  .stat-card .emoji { font-size: 1.8rem; margin-bottom: 8px; }
+
+  /* ===== SECTION ===== */
+  .section {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 24px;
+    padding: 25px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .section-header .icon { font-size: 1.8rem; }
+  .section-header h2 { font-size: 1.3rem; font-weight: 700; }
+  .section-header .badge {
+    margin-right: auto;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: .85rem; font-weight: 700;
+  }
+  .badge-red    { background: rgba(239,68,68,.2);  color: #f87171; border:1px solid rgba(239,68,68,.3); }
+  .badge-yellow { background: rgba(251,191,36,.2); color: #fbbf24; border:1px solid rgba(251,191,36,.3); }
+  .badge-green  { background: rgba(34,197,94,.2);  color: #4ade80; border:1px solid rgba(34,197,94,.3); }
+
+  /* ===== GRID ===== */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 10px; }
+
+  .user-card {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    transition: all .3s; cursor: pointer;
+    text-decoration: none; color: inherit;
+  }
+  .user-card:hover {
+    background: rgba(168,85,247,.2);
+    border-color: rgba(168,85,247,.4);
+    transform: translateY(-2px);
+  }
+  .user-card .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 700; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+  }
+  .user-card .name {
+    font-size: .78rem; font-weight: 500;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    direction: ltr;
+  }
+
+  /* لوان مختلفة للبطاقات */
+  .red-card    .avatar { background: linear-gradient(135deg,#f87171,#ec4899); }
+  .yellow-card .avatar { background: linear-gradient(135deg,#fbbf24,#f59e0b); }
+  .green-card  .avatar { background: linear-gradient(135deg,#4ade80,#34d399); }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center; padding: 30px 20px;
+    color: rgba(255,255,255,.4); font-size: .85rem;
+  }
+  .footer span { color: var(--pink); }
+
+  /* ===== search ===== */
+  .search-wrap { margin-bottom: 15px; }
+  .search-wrap input {
+    width: 100%; padding: 10px 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    color: white; font-size: .9rem;
+    font-family: 'Tajawal', sans-serif;
+    outline: none; direction: ltr;
+  }
+  .search-wrap input::placeholder { color: rgba(255,255,255,.4); }
+  .search-wrap input:focus { border-color: var(--pink); }
+
+  /* unicorn divider */
+  .divider {
+    text-align: center; margin: 10px 0;
+    color: rgba(255,255,255,.2); font-size: .8rem;
+    letter-spacing: 3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- نجوم خلفية -->
+<div class="stars" id="stars"></div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="avatar-wrap">
+      <img src="isra.jpg" alt="issra_unicorn_" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦄</text></svg>'">
+    </div>
+    <h1>🪽⭐️ issra_unicorn_</h1>
+    <p class="handle">@issra_unicorn_ • Instagram</p>
+    <p style="color:rgba(255,255,255,.5); font-size:.9rem;">for my close unicorns 🫶 #manifestation</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card purple">
+      <div class="emoji">👥</div>
+      <div class="num">151</div>
+      <div class="label">Followers</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="emoji">🦋</div>
+      <div class="num">131</div>
+      <div class="label">Suivis</div>
+    </div>
+    <div class="stat-card green">
+      <div class="emoji">✅</div>
+      <div class="num">107</div>
+      <div class="label">متبادلون</div>
+    </div>
+    <div class="stat-card red">
+      <div class="emoji">❌</div>
+      <div class="num">23</div>
+      <div class="label">لا يردون</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="emoji">⚠️</div>
+      <div class="num">43</div>
+      <div class="label">لا تتابعهم</div>
+    </div>
+  </div>
+
+  <!-- لا يردون -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">❌</span>
+      <h2>تتابعهم ولا يردون</h2>
+      <span class="badge badge-red">21 حساب</span>
+    </div>
+    <div class="search-wrap">
+      <input type="text" placeholder="🔍 ابحث..." oninput="filter(this,'red-grid')">
+    </div>
+    <div class="grid" id="red-grid"></div>
+  </div>
+
+  <!-- لا تتابعهم -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">⚠️</span>
+      <h2>يتابعونها ولا تتابعهم</h2>
+      <span class="badge badge-yellow">44 حساب</span>
+    </div>
+    <div class="search-wrap">
+      <input type="text" placeholder="🔍 ابحث..." oninput="filter(this,'yellow-grid')">
+    </div>
+    <div class="grid" id="yellow-grid"></div>
+  </div>
+
+  <!-- متبادلون -->
+  <div class="section">
+    <div class="section-header">
+      <span class="icon">✅</span>
+      <h2>متبادلون</h2>
+      <span class="badge badge-green">106 حساب</span>
+    </div>
+    <div class="search-wrap">
+      <input type="text" placeholder="🔍 ابحث..." oninput="filter(this,'green-grid')">
+    </div>
+    <div class="grid" id="green-grid"></div>
+  </div>
+
+  <div class="footer">
+    صُنع بـ <span>♥</span> لـ <span>@issra_unicorn_</span> 🦄✨
+  </div>
+
+</div>
+
+<script>
+// بيانات محدّثة - 150 followers كاملة
+const notFollowingBack = [
+  '404dolls','__adeemmm__','abir_abdelmalek_','aerichandesu','aespa_official',
+  'babymonster_ygofficial','balk.is3142','college_pilote_khaznadar_','fno7e_',
+  'for_everyoung10','girls','imwinter','katarinabluu','liammiiler','luzstudy.17',
+  'maryem_mahdoudi','math_with_mohamed','prvvv_yhy11','sachikofairy','sandra_b.2013',
+  'soma_chhaya','trke_m','victoriassecret'
+];
+
+const notFollowedBack = [
+  '4real._.rayan','abedsslam_nahdi','ahmed__hammemi__','aley_awh0','andrearui_',
+  'arbia_ah','bal.kiiiiis','bilal56316','bronx_12677','edriss___leadery',
+  'edriss_ghimagi','elk.12524442','football_shoop7','hibabenkhalifa00','https.___.douaa',
+  'iconinaaah','ilef.ffffff__','ilyesouni855','issra_khedhri','kahlaoui___________rayen',
+  'loujain2479','mahi.collectionn2025','malek_jr_8','malkamr498','med29.med09',
+  'melicia_gou','nidalrhayme','nourane_cpkt28','prv_youssef_03','prvvvvvvv__aziz_____',
+  'rachidir3','rayen11670','sgstkcc233','shaima.2356975','w0lf.is',
+  'xyrnifrda','ya__hya1577','yahya.jb11','yasmine_________777','yassinezhmansouri',
+  'youssef.a1139','youuuussef_____01','zdk_mohmadx'
+];
+
+const mutual = [
+  '1h___medddd__03','1h__medd__03','668_elaa','9il_.777','__.2mnny__',
+  '___.2mnny.___','____3abdo____','__arij.bn.rjb__','__iyed___84','__lwss__prvv',
+  '__moemen__07','__yosserr.__','_drissarra_','_es_ra_22_','_mayy__._',
+  '_saraa_brahim_','_toutta__ayeedi_','_yessine_7','_youssef_maaroufi_','abdelliadem_91',
+  'adem__khalfaoui__02','adem__wdaa','ahmed_alouii11','alouiii___','amdouni.16',
+  'amen_rouatbi','amenallahmekni','amin_zarrouk_13','anass_du__sudd','ayari___rafik',
+  'ayoub_gnt','azizchlf','azizos_spam','bargaouimenyar','benalisarra3',
+  'bourguiba_y','bs_zayd','chaa________hdd','chahdbenbabis','chahdouda.2011',
+  'dakh.liranim','dakhlisprv','emnabenchaabene','esra_khemiri_95','fourat__graba',
+  'ganouniyazid22','ghaibi_youssef_11','ghofranetalbi1919','gk.__.ayoub','golda_a69',
+  'hamma__becheikh','hannyy__spamzz','ifi_raslen','ihse_nprv','ilyes_du_sud',
+  'imanona.tw','issra_wiiiw_','issraaaaaaaaaaaaa_prvv','jihedd_68','just_sisssiiii',
+  'ka7laa__09','kefi_momen','khl2f_i','l3ch__','linouuuu87',
+  'm4yss.n','mariem_dgham','mattoussi_47','mayssen.cherni','med_aminee_02',
+  'moemen_bezayed','moetazz___','n0ur_benmoussa','nadine_hamemi12','nour_nour1897',
+  'privatt___chahedd','prv_mariouma12','raslen_ifi','rasslenarbi','rawenkhedri',
+  'saraaa_privatelifee','secret_life_of_tasnim.5','sfe9si__08','shahed____mahmli',
+  'skanderrr_accounttt','someone_123_bl','suusamaaa','tasnime_bdiri','wartani_asma',
+  'wassim__mtg','yaakoub5290','yaakoubatigui','yakine_yn','yall_luv_yasmine',
+  'yas.mine2050','yassmin_guizani10','yazid_1y','yomna_bedhief','yousseefff__9',
+  'youssfi4478','yssf_p_r_v','yssine__2002','yuuusssseff_','zaynebwiiw',
+  'zei__1_neb_','ziko_9010','zzeinebb__'
+];
+
+function getInitial(name) {
+  return name.replace(/[^a-zA-Z0-9]/g,'').charAt(0).toUpperCase() || '?';
+}
+
+function buildCard(name, type) {
+  const url = `https://instagram.com/${name}/`;
+  return `
+    <a href="${url}" target="_blank" class="user-card ${type}-card" data-name="${name}">
+      <div class="avatar">${getInitial(name)}</div>
+      <span class="name">${name}</span>
+    </a>`;
+}
+
+function renderGrid(id, list, type) {
+  document.getElementById(id).innerHTML = list.map(n => buildCard(n, type)).join('');
+}
+
+function filter(input, gridId) {
+  const q = input.value.toLowerCase();
+  document.querySelectorAll(`#${gridId} .user-card`).forEach(card => {
+    card.style.display = card.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// رسم النجوم
+function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --d:${2+Math.random()*4}s;
+      --delay:-${Math.random()*4}s;
+    `;
+    container.appendChild(s);
+  }
+}
+
+renderGrid('red-grid',    notFollowingBack, 'red');
+renderGrid('yellow-grid', notFollowedBack,  'yellow');
+renderGrid('green-grid',  mutual,           'green');
+createStars();
+</script>
+</body>
+</html>
